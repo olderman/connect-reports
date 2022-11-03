@@ -39,8 +39,8 @@ def generate(
 
     for request in requests:
         connection = request['asset']['connection']
-        for item in request['asset']['items']:
-            if item['quantity'] != 0 and item['old_quantity'] != 0:
+        for item in request['asset']['params']:
+            if item['phase'] != 'fulfillment':
                 if renderer_type == 'json':
                     yield {
                         HEADERS[idx].replace(' ', '_').lower(): value
@@ -86,13 +86,13 @@ def _process_line(item, request, connection):
             get_basic_value(request, 'updated'),
         ),
         today_str(),
-        get_basic_value(item, 'global_id'),
-        get_basic_value(item, 'display_name'),
-        get_basic_value(item, 'item_type'),
+        get_basic_value(item, 'id'),
+        get_basic_value(item, 'name'),
+        get_basic_value(item, 'title'),
+        get_basic_value(item, 'description'),
+        get_basic_value(item, 'phase'),
         get_basic_value(item, 'type'),
-        get_basic_value(item, 'mpn'),
-        get_basic_value(item, 'period'),
-        get_basic_value(item, 'quantity'),
+        get_basic_value(item, 'value'),
         get_value(request['asset']['tiers'], 'customer', 'id'),
         get_value(request['asset']['tiers'], 'customer', 'name'),
         get_value(request['asset']['tiers'], 'customer', 'external_id'),
